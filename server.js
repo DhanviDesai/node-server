@@ -1,6 +1,8 @@
 const express = require('express');
 const fs = require('fs');
 
+var port = process.env.PORT || 3000;
+
 var app = express();
 
 app.use((req,res,next) => {
@@ -32,6 +34,6 @@ app.get('/bad',(req,res) =>{
   res.send('Bad page');
 });
 
-app.listen(3000,() => {
-  console.log('Server up and running');
+app.listen(port,() => {
+  console.log(`Server up and running in ${{port}}`);
 });
