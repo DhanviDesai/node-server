@@ -1,9 +1,14 @@
 const express = require('express');
 const fs = require('fs');
+const hbs = require('hbs');
 
 var port = process.env.PORT || 3000;
 
 var app = express();
+hbs.registerPartials(__dirname+'/views/partials');
+hbs.registerHelper('getCurrentYear', ()  => {
+    return new Date().getFullYear();
+});
 
 app.use((req,res,next) => {
   var now = new Date();
@@ -12,17 +17,17 @@ app.use((req,res,next) => {
   next();
 });
 
+app.use(express.static(__dirname+'/public'));
+
 app.get('/',(req,res) => {
   res.render('root.hbs',{
-    pageTitle : 'Home page',
-    currentYear : new Date().getFullYear()
+    pageTitle : 'Home page'
   })
 });
 
 app.get('/about',(req,res) => {
   res.render('about.hbs',{
-    pageTitle : 'About Page',
-    currentYear : new Date().getFullYear()
+    pageTitle : 'About Page'
   });
 });
 
@@ -31,5 +36,5 @@ app.get('/bad',(req,res) =>{
 });
 
 app.listen(port,() => {
-  console.log(`Server up and running in ${{port}}`);
+  console.log(`Server up and running in ${port}`);
 });
